@@ -8,7 +8,9 @@ public class User {
 	private String user_name;
 	
 	public User(String user_name, String password, boolean super_user) {
-		
+		this.user_name = user_name;
+		this.password = password;
+		this.super_user = super_user;
 	}
 	
 	public boolean authenticate(String password) {
@@ -16,7 +18,7 @@ public class User {
 	}
 	
 	public void clearMessages() {
-		
+		messages.clear();
 	}
 	
 	public void connect(Connection connection) {
@@ -32,7 +34,7 @@ public class User {
 	}
 	
 	public int hashCode() {
-		return 0;
+		return user_name.hashCode();
 	}
 	
 	public List<Message> messages(){
@@ -40,7 +42,7 @@ public class User {
 	}
 	
 	public void send(Message message) {
-		
+		messages.add(message);
 	}
 	
 	public String username() {
