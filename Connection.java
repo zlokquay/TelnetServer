@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.List;
@@ -12,19 +13,29 @@ public class Connection {
 	private Users user_database;
 	
 	public Connection(Socket socket, Users user_database) {
-		
+		this.socket = socket;
+		this.user_database = user_database;
+		this.input = socket.getInputStream();
+		commands.set(0, new CreateCommand());
+		commands.set(1, new LoginCommand());
+		commands.set(2, new QuitCommand());
+		commands.set(3, new SendCommand());
 	}
 	
 	public void close() {
-		
+		user.disconnect();
 	}
 	
 	public User getUser() {
 		return user;
-		
 	}
 	
 	public Scanner input() {
+		try {
+			return new Scanner(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return input;
 	}
 	
@@ -34,6 +45,21 @@ public class Connection {
 	
 	void run() {
 		
+		input = this.input();
+		
+		while(true) {
+			
+			String line = input.nextLine();
+			String cur_command = line.substring(0, 3);
+			String data = line.substring(3);
+			
+			for(int i = 0; i < commands.size(); i++) {
+				Command check = commands.get(i);
+				if (check.matches(cur_command)){
+					check.perform(this, user_database);
+				}
+			}
+		}
 	}
 	
 	public void send(Message message) {
