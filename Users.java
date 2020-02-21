@@ -18,6 +18,7 @@ public class Users {
 	
 	void newUser(String user_name, String password, boolean super_user) {
 		users.put(user_name, new User(user_name, password, super_user));
+		System.out.println(users.size());
 	}
 	
 }

@@ -15,7 +15,14 @@ public class Connection implements Runnable{
 	public Connection(Socket socket, Users user_database) {
 		this.socket = socket;
 		this.user_database = user_database;
-		//this.input = socket.getInputStream();
+		
+		try {
+			this.input = new Scanner(socket.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		commands.set(0, new CreateCommand());
 		commands.set(1, new LoginCommand());
 		commands.set(2, new QuitCommand());
@@ -49,9 +56,7 @@ public class Connection implements Runnable{
 		
 		while(true) {
 			
-			String line = input.nextLine();
-			String cur_command = line.substring(0, 3);
-			String data = line.substring(3);
+			String cur_command = input.next(" ");
 			
 			for(int i = 0; i < commands.size(); i++) {
 				Command check = commands.get(i);
