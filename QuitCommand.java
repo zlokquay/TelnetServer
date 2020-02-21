@@ -9,6 +9,7 @@ public class QuitCommand extends Command {
 	}
 	
 	public void perform(Connection connection, Users user_database) {
-		
+		User cur_user = connection.getUser();
+		cur_user.disconnect();
 	}
 }

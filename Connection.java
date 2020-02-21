@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 
-public class Connection {
+public class Connection implements Runnable{
 	private static List<Command> commands;
 	private Scanner input;
 	private PrintStream output;
@@ -23,7 +23,7 @@ public class Connection {
 	}
 	
 	public void close() {
-		user.disconnect();
+		
 	}
 	
 	public User getUser() {
@@ -31,11 +31,6 @@ public class Connection {
 	}
 	
 	public Scanner input() {
-		try {
-			return new Scanner(socket.getInputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return input;
 	}
 	
@@ -43,7 +38,7 @@ public class Connection {
 		return output;
 	}
 	
-	void run() {
+	public void run() {
 		
 		input = this.input();
 		

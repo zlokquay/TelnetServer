@@ -5,7 +5,7 @@ public class LoginCommand extends Command {
 	}
 	
 	public boolean matches(String keyword) {
-		return true;
+		return keyword.equals("AUTH");
 	}
 	
 	public void perform(Connection connection, Users user_database) {

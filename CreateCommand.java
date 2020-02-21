@@ -5,7 +5,7 @@ public class CreateCommand extends Command {
 	}
 	
 	public boolean matches(String keyword) {
-		return true;
+		return keyword.equals("CRTE");
 	}
 	
 	public void perform(Connection connection, Users user_database) {

@@ -16,18 +16,20 @@ public class Server implements Runnable{
 			System.out.println(InetAddress.getLocalHost());
 			
 		} catch (IOException caught) {
-			System.out.println(caught);
+			caught.printStackTrace();
 		}
 	}
 	
 	public void run() {
 		System.out.println("Server starting...\r");
 		
+		
+		//we have null errors here when trying to connect in putty. unsure why.
 		while(true) {
 			try {
-				new Connection(server_socket.accept(), user_database);
+				new Thread(new Connection(server_socket.accept(), user_database)).start();
 			} catch (IOException caught) {
-				System.out.println(caught);
+				caught.printStackTrace();
 			}
 		}
 	}

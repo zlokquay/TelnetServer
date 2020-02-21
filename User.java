@@ -30,7 +30,7 @@ public class User {
 	}
 	
 	public void disconnect() {
-		
+		connection.close();
 	}
 	
 	public int hashCode() {

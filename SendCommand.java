@@ -5,7 +5,7 @@ public class SendCommand extends Command {
 	}
 	
 	public boolean matches(String keyword) {
-		return true;
+		return keyword.equals("SEND");
 	}
 	
 	public void perform(Connection connection, Users user_database) {
