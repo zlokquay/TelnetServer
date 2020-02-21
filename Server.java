@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server implements Runnable{
 	
@@ -16,18 +17,25 @@ public class Server implements Runnable{
 			System.out.println(InetAddress.getLocalHost());
 			
 		} catch (IOException caught) {
-			System.out.println(caught);
+			caught.printStackTrace();
 		}
 	}
 	
 	public void run() {
 		System.out.println("Server starting...\r");
 		
+		
+		//we have null pointer errors here when trying to connect in putty. unsure why.
+		//only occurs when connecting when running the server locally
 		while(true) {
 			try {
-				new Connection(server_socket.accept(), user_database);
+				Socket sock = server_socket.accept();
+				System.out.println(sock);
+				Connection conn = new Connection(sock, user_database);
+				Thread t = new Thread(conn);
+				t.start();
 			} catch (IOException caught) {
-				System.out.println(caught);
+				caught.printStackTrace();
 			}
 		}
 	}

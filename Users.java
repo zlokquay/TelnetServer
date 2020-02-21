@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public class Users {
@@ -5,7 +6,7 @@ public class Users {
 	public Map<String, User> users;
 	
 	public Users() {
-		
+		users = new HashMap<String, User>();
 	}
 	
 	User getUser(String user_name) {
