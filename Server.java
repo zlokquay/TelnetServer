@@ -11,6 +11,7 @@ public class Server implements Runnable{
 		try {
 			
 			server_socket = new ServerSocket(port);
+			user_database = new Users();
 			
 			System.out.println(InetAddress.getLocalHost());
 			

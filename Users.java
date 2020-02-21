@@ -2,7 +2,7 @@ import java.util.Map;
 
 public class Users {
 	
-	private Map<String, User> users;
+	public Map<String, User> users;
 	
 	public Users() {
 		
