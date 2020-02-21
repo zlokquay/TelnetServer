@@ -15,7 +15,7 @@ public class Connection {
 	public Connection(Socket socket, Users user_database) {
 		this.socket = socket;
 		this.user_database = user_database;
-		this.input = socket.getInputStream();
+		//this.input = socket.getInputStream();
 		commands.set(0, new CreateCommand());
 		commands.set(1, new LoginCommand());
 		commands.set(2, new QuitCommand());
