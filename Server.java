@@ -26,6 +26,7 @@ public class Server implements Runnable{
 		
 		
 		//we have null pointer errors here when trying to connect in putty. unsure why.
+		//only occurs when connecting when running the server locally
 		while(true) {
 			try {
 				Socket sock = server_socket.accept();

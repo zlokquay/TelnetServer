@@ -1,11 +1,12 @@
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Connection implements Runnable{
-	private static List<Command> commands;
+	private static List<Command> commands = new ArrayList<Command>();
 	private Scanner input;
 	private PrintStream output;
 	private Socket socket;
@@ -18,15 +19,18 @@ public class Connection implements Runnable{
 		
 		try {
 			this.input = new Scanner(socket.getInputStream());
+			this.output = new PrintStream(socket.getOutputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		commands.set(0, new CreateCommand());
-		commands.set(1, new LoginCommand());
-		commands.set(2, new QuitCommand());
-		commands.set(3, new SendCommand());
+		commands.add(new CreateCommand());
+		commands.add(new LoginCommand());
+		commands.add(new QuitCommand());
+		commands.add(new SendCommand());
+		
+		output.print("Welcome. Please enter a command. \n\r");
 	}
 	
 	public void close() {
@@ -36,6 +40,10 @@ public class Connection implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isConnected() {
+		return !socket.isClosed();
 	}
 	
 	public User getUser() {
@@ -52,18 +60,21 @@ public class Connection implements Runnable{
 	
 	public void run() {
 		
-		input = this.input();
-		
-		while(true) {
-			
-			String cur_command = input.next(" ");
+		while(!socket.isClosed()) {
+			String cur_command = null;
+			if(input.hasNext()) {
+				 cur_command = input.next();
+			}
 			
 			for(int i = 0; i < commands.size(); i++) {
 				Command check = commands.get(i);
 				if (check.matches(cur_command)){
 					check.perform(this, user_database);
+					break;
+				} else if (i == (commands.size()-1)) {
+					output.print("No such command \"" + cur_command + "\".\n\r");
 				}
-			}
+			}	
 		}
 	}
 	

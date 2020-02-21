@@ -1,3 +1,5 @@
+import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -11,10 +13,11 @@ public class User {
 		this.user_name = user_name;
 		this.password = password;
 		this.super_user = super_user;
+		this.messages = new ArrayList<Message>();
 	}
 	
 	public boolean authenticate(String password) {
-		return false;
+		return this.password.equals(password);
 	}
 	
 	public void clearMessages() {
@@ -22,11 +25,15 @@ public class User {
 	}
 	
 	public void connect(Connection connection) {
-		
+		this.connection = connection;
+		PrintStream output = connection.output();
+		for(int i = 0; i < messages.size(); i++) {
+			output.print("100 Message from " + messages.get(i).from().username() + " follows:\"" + messages.get(i).message() + "\"\n\r");
+		}
 	}
 	
 	public boolean connected() {
-		return false;
+		return connection != null && connection.isConnected();
 	}
 	
 	public void disconnect() {
@@ -42,7 +49,12 @@ public class User {
 	}
 	
 	public void send(Message message) {
-		messages.add(message);
+		if (connected()) {
+			connection.output().print("100 Message from " + message.from().username() + " follows:\"" + message.message() + "\"\n\r");
+		} else {
+			System.out.println("beep");
+			messages.add(message);
+		}
 	}
 	
 	public String username() {
