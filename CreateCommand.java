@@ -12,7 +12,10 @@ public class CreateCommand extends Command {
 		String[] credentials = connection.fuckinggetdatasomehow().split(" ");
 		if(user_database.users.containsKey(credentials[0])) {
 			connection.printSomehow("203 User "+credentials[0]+" already exists.");
-		}else {
+		}
+		else if (credentials[1] == null || credentials[2] == null) {
+			connection.printSomehow("999 Additional paramters required.")
+		} else {
 			if (user_database.isEmpty()) {
 				user_database.newUser(credentials[0], credentials[1], true);
 				connection.printSomehow("105 User "+credentials[0]+" created as superuser.");

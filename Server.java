@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server implements Runnable{
 	
@@ -24,10 +25,14 @@ public class Server implements Runnable{
 		System.out.println("Server starting...\r");
 		
 		
-		//we have null errors here when trying to connect in putty. unsure why.
+		//we have null pointer errors here when trying to connect in putty. unsure why.
 		while(true) {
 			try {
-				new Thread(new Connection(server_socket.accept(), user_database)).start();
+				Socket sock = server_socket.accept();
+				Connection conn = new Connection(sock, user_database);
+				Thread t;
+				t = new Thread(conn);
+				t.start();
 			} catch (IOException caught) {
 				caught.printStackTrace();
 			}

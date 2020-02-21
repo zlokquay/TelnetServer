@@ -23,7 +23,12 @@ public class Connection implements Runnable{
 	}
 	
 	public void close() {
-		
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public User getUser() {
@@ -58,7 +63,7 @@ public class Connection implements Runnable{
 	}
 	
 	public void send(Message message) {
-		
+		user.send(message);
 	}
 	
 	public void setUser(User user) {

@@ -23,7 +23,9 @@ public class LoginCommand extends Command {
 				if (user.authenticate(credentials[1])){
 					user.connect(connection);
 					connection.printSomehow("102 Connected as "+credentials[0]+".");
-				}		
+				} else {
+					connection.printSomehow("999 Additional parameters required.")
+				}
 			}
 			
 		}else {
